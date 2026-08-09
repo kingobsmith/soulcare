@@ -83,8 +83,8 @@ export default function PrivacyPage() {
             <p className="mt-2">
               You may request access to, correction of, or deletion of eligible personal
               information by contacting{" "}
-              <a href="mailto:privacy@soulcares.co" className="font-medium text-teal underline underline-offset-2">
-                privacy@soulcares.co
+              <a href="mailto:privacy@soulcares.life" className="font-medium text-teal underline underline-offset-2">
+                privacy@soulcares.life
               </a>
               . You may opt out of marketing emails by using the unsubscribe link
               included in those messages.
@@ -121,8 +121,8 @@ export default function PrivacyPage() {
             <h2 className="font-display text-lg font-semibold text-ink">Contact</h2>
             <p className="mt-2">
               For privacy questions, contact Soul Care at{" "}
-              <a href="mailto:privacy@soulcares.co" className="font-medium text-teal underline underline-offset-2">
-                privacy@soulcares.co
+              <a href="mailto:privacy@soulcares.life" className="font-medium text-teal underline underline-offset-2">
+                privacy@soulcares.life
               </a>
               .
             </p>

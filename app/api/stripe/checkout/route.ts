@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
 
     const session = await stripe.checkout.sessions.create({
       mode: plan.mode,
+      payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${appUrl}/app?checkout=success`,
       cancel_url: `${appUrl}/membership?checkout=cancelled`,
@@ -38,8 +39,12 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message =
+      err && typeof err === "object" && "message" in err && typeof err.message === "string"
+        ? err.message
+        : "Could not start checkout.";
     console.error("Stripe checkout error:", err);
-    return NextResponse.json({ error: "Could not start checkout." }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

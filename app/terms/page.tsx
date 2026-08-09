@@ -126,8 +126,8 @@ export default function TermsPage() {
             <h2 className="font-display text-lg font-semibold text-ink">Contact</h2>
             <p className="mt-2">
               Questions about these Terms:{" "}
-              <a href="mailto:legal@soulcares.co" className="font-medium text-teal underline underline-offset-2">
-                legal@soulcares.co
+              <a href="mailto:legal@soulcares.life" className="font-medium text-teal underline underline-offset-2">
+                legal@soulcares.life
               </a>
             </p>
             <p className="mt-2 text-xs text-ink/50">

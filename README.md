@@ -36,10 +36,10 @@
 
 ### 1d. Configure Auth redirect URLs
 1. Go to **Authentication → URL Configuration** (left sidebar)
-2. Set **Site URL** to `https://soulcares.co` (use your Vercel preview URL until your domain is connected, e.g. `https://soulcares-abc123.vercel.app`)
+2. Set **Site URL** to `https://soulcares.life` (use your Vercel preview URL until your domain is connected, e.g. `https://soulcares-abc123.vercel.app`)
 3. Under **Redirect URLs** add:
-   - `https://soulcares.co/app`
-   - `https://soulcares.co/provider/dashboard`
+   - `https://soulcares.life/app`
+   - `https://soulcares.life/provider/dashboard`
    - Your Vercel preview equivalents, e.g. `https://soulcares-abc123.vercel.app/app`
 4. Click **Save**
 
@@ -96,7 +96,7 @@ Go to https://dashboard.stripe.com/test/apikeys
 
 1. Go to https://dashboard.stripe.com/test/webhooks → **Add endpoint**
 2. **Endpoint URL:** `https://YOUR-VERCEL-URL.vercel.app/api/stripe/webhook`  
-   (replace with `https://soulcares.co/api/stripe/webhook` after domain is connected)
+   (replace with `https://soulcares.life/api/stripe/webhook` after domain is connected)
 3. Click **Select events** and add exactly these 12 events:
    - `checkout.session.completed`
    - `customer.subscription.created`
@@ -160,18 +160,18 @@ Resend handles the contact form. Without this, the contact form returns a 502 er
 
 ### 3b. Verify your sending domain
 1. In Resend go to **Domains → Add Domain**
-2. Enter `soulcares.co`
+2. Enter `soulcares.life`
 3. Resend gives you DNS records to add — log into wherever your domain's DNS is managed (GoDaddy, Namecheap, Cloudflare, etc.)
 4. Add the records Resend gives you (usually a few TXT and MX records)
 5. Click **Verify** in Resend — it may take a few minutes for DNS to propagate
-6. Once verified, emails from `hello@soulcares.co` will send successfully
+6. Once verified, emails from `hello@soulcares.life` will send successfully
 
 ### 3c. Set contact env vars
 
 ```
 RESEND_API_KEY=re_your_key_here
-CONTACT_TO_EMAIL=hello@soulcares.co
-CONTACT_FROM_EMAIL=Soul Care <hello@soulcares.co>
+CONTACT_TO_EMAIL=hello@soulcares.life
+CONTACT_FROM_EMAIL=Soul Care <hello@soulcares.life>
 ```
 
 > `CONTACT_TO_EMAIL` is where contact form submissions arrive in your inbox.  
@@ -227,10 +227,10 @@ STRIPE_PRICE_THERAPY_SESSION      → from Stripe Step 2a
 STRIPE_PRICE_PROVIDER_NETWORK     → from Stripe Step 2a
 
 RESEND_API_KEY                    → from Resend Step 3a
-CONTACT_TO_EMAIL                  → hello@soulcares.co
-CONTACT_FROM_EMAIL                → Soul Care <hello@soulcares.co>
+CONTACT_TO_EMAIL                  → hello@soulcares.life
+CONTACT_FROM_EMAIL                → Soul Care <hello@soulcares.life>
 
-NEXT_PUBLIC_APP_URL               → https://soulcares.co
+NEXT_PUBLIC_APP_URL               → https://soulcares.life
                                     (use your Vercel preview URL until domain is connected)
 ```
 
@@ -245,13 +245,13 @@ Set each variable for **Production**, **Preview**, and **Development** environme
 
 ### 4e. Connect your domain
 1. In Vercel → **Project → Settings → Domains**
-2. Click **Add Domain** → type `soulcares.co` → click **Add**
-3. Also add `www.soulcares.co`
+2. Click **Add Domain** → type `soulcares.life` → click **Add**
+3. Also add `www.soulcares.life`
 4. Vercel shows you DNS records — go to your domain registrar and add them:
-   - For the apex domain (`soulcares.co`): add an **A record** pointing to `76.76.21.21`
+   - For the apex domain (`soulcares.life`): add an **A record** pointing to `76.76.21.21`
    - For www: add a **CNAME** pointing to `cname.vercel-dns.com`
 5. DNS can take 10 minutes to 48 hours to propagate
-6. Once connected, update `NEXT_PUBLIC_APP_URL` to `https://soulcares.co` in Vercel env vars and redeploy
+6. Once connected, update `NEXT_PUBLIC_APP_URL` to `https://soulcares.life` in Vercel env vars and redeploy
 7. Also update the Stripe webhook URL (Step 2c) and Supabase redirect URLs (Step 1d) to use your real domain
 
 ---
@@ -275,7 +275,7 @@ Before telling anyone the site is live:
 - [ ] Connect enabled for provider payouts
 
 **Resend**
-- [ ] Domain `soulcares.co` verified in Resend
+- [ ] Domain `soulcares.life` verified in Resend
 - [ ] Contact form submits and email arrives in your inbox
 
 **Site**
