@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import Section from "@/components/Section";
+import AffiliateDashboardClient from "@/components/AffiliateDashboardClient";
 
 export default async function AffiliateDashboard() {
   const supabase = createClient();
@@ -8,20 +9,17 @@ export default async function AffiliateDashboard() {
     data: { user }
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
-  }
+  if (!user) redirect("/login");
 
   return (
     <Section tone="parchment">
       <p className="eyebrow">Affiliate dashboard</p>
-      <h1 className="mt-2 font-display text-3xl font-semibold">Phase 2</h1>
+      <h1 className="mt-2 font-display text-3xl font-semibold">Share Soul Care</h1>
       <p className="mt-3 max-w-xl text-ink/70">
-        Referral links, attribution, and commission payouts activate once the affiliate
-        program policy is finalized (see <code>affiliate_profiles</code> and{" "}
-        <code>affiliate_attributions</code> in the database schema). This route is
-        scaffolded and auth-gated so you can build the UI directly on top of it.
+        Refer people to Soul Care with your personal link. Sign-ups through your link are tracked
+        here.
       </p>
+      <AffiliateDashboardClient />
     </Section>
   );
 }

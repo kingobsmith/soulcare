@@ -44,11 +44,12 @@ export default function HomePage() {
         <div className="mx-auto max-w-6xl px-6 pb-24 pt-24">
           <p className="eyebrow text-brass">Soul Care</p>
           <h1 className="mt-4 max-w-2xl font-display text-5xl font-semibold leading-[1.05] text-balance sm:text-6xl">
-            A calmer first step toward real care.
+            A liaison between you and your care team.
           </h1>
           <p className="mt-6 max-w-xl text-lg text-parchment/75">
-            Soul Care helps you connect with a licensed provider who fits your needs,
-            preferences, and story. No clinical intake form. No pressure.
+            Soul Care connects you with Angel for daily listening and sound spiritual guidance —
+            and keeps your therapist, doctor, and pastor aligned with progress reports until you see
+            a professional.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link href="/care-match" className="btn-gold">
@@ -174,12 +175,12 @@ export default function HomePage() {
             name="Companion Plus"
             price="$9"
             cadence="month"
-            description="Priority routing and expanded tools when the AI Companion launches."
+            description="Angel listens daily, routes crisis support, and bridges you to your care team."
             features={[
-              "Everything in free",
-              "Priority care-match routing",
-              "AI Companion access (coming soon)",
-              "Journal & check-ins (coming soon)"
+              "Angel daily check-ins",
+              "Resource library",
+              "Care team progress reports",
+              "Crisis routing"
             ]}
             planKey="companion_plus"
             featured

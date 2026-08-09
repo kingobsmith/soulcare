@@ -3,6 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import Section from "@/components/Section";
 import CrisisNote from "@/components/CrisisNote";
 import ManageBillingButton from "@/components/ManageBillingButton";
+import AngelChat from "@/components/AngelChat";
+import CareTeamPanel from "@/components/CareTeamPanel";
 import Link from "next/link";
 
 export default async function MemberDashboard() {
@@ -25,34 +27,21 @@ export default async function MemberDashboard() {
       <h1 className="mt-2 font-display text-3xl font-semibold">
         Welcome{name ? `, ${name}` : ""}.
       </h1>
+      <p className="mt-2 max-w-2xl text-sm text-ink/65">
+        Soul Care is your liaison between daily support and your therapist, doctor, and pastor.
+        Angel listens daily; your care team receives progress when you&apos;re ready.
+      </p>
 
       <div className="mt-6 max-w-xl">
         <CrisisNote compact />
       </div>
 
-      <div className="mt-10 grid gap-6 md:grid-cols-2">
+      <div className="mt-10 grid gap-6 lg:grid-cols-2">
+        <AngelChat />
+        <CareTeamPanel />
 
-        {/* AI Companion — Coming Soon */}
-        <div className="card border-2 border-dashed border-ink/15 bg-white/40">
-          <div className="flex items-start gap-4">
-            <div className="rounded-xl bg-teal/10 p-3 text-2xl">🤝</div>
-            <div>
-              <h2 className="font-display text-xl font-semibold">AI Companion</h2>
-              <span className="mt-1 inline-block rounded-full bg-brass/15 px-2.5 py-0.5 text-xs font-semibold text-brass-light">
-                Coming soon
-              </span>
-            </div>
-          </div>
-          <p className="mt-3 text-sm text-ink/65">
-            A private, faith-sensitive listening companion is in development. It will
-            include full crisis routing, session controls, and clear boundaries around
-            clinical care. We'll notify you when it's ready.
-          </p>
-        </div>
-
-        {/* Care-match requests */}
         <div className="card">
-          <h2 className="font-display text-xl font-semibold">Provider interest requests</h2>
+          <h2 className="font-display text-xl font-semibold">Provider match status</h2>
           {careMatches && careMatches.length > 0 ? (
             <ul className="mt-3 space-y-2 text-sm">
               {careMatches.map((c) => (
@@ -68,13 +57,12 @@ export default async function MemberDashboard() {
             <p className="mt-2 text-sm text-ink/60">
               No requests yet.{" "}
               <Link href="/care-match" className="font-semibold text-teal underline underline-offset-2">
-                Express interest in a provider match →
+                Request a provider match →
               </Link>
             </p>
           )}
         </div>
 
-        {/* Resources */}
         <div className="card">
           <h2 className="font-display text-xl font-semibold">Resources</h2>
           <p className="mt-2 text-sm text-ink/65">
@@ -85,7 +73,6 @@ export default async function MemberDashboard() {
           </Link>
         </div>
 
-        {/* Billing */}
         <div className="card">
           <h2 className="font-display text-xl font-semibold">Billing</h2>
           <p className="mt-2 text-sm text-ink/65">
@@ -95,7 +82,6 @@ export default async function MemberDashboard() {
             <ManageBillingButton />
           </div>
         </div>
-
       </div>
     </Section>
   );

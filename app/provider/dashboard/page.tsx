@@ -19,9 +19,7 @@ export default async function ProviderDashboard() {
     data: { user }
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
-  }
+  if (!user) redirect("/login");
 
   const { data: provider } = await supabase
     .from("provider_profiles")
@@ -33,15 +31,19 @@ export default async function ProviderDashboard() {
     return (
       <Section tone="parchment">
         <h1 className="font-display text-3xl font-semibold">Provider dashboard</h1>
-        <p className="mt-3 text-ink/70">
-          You haven't submitted a provider application yet.
-        </p>
+        <p className="mt-3 text-ink/70">You haven&apos;t submitted a provider application yet.</p>
         <a href="/providers/apply" className="btn-primary mt-6 inline-flex">
           Apply now
         </a>
       </Section>
     );
   }
+
+  const { data: referrals } = await supabase
+    .from("referrals")
+    .select("id, status, assigned_at, care_match_requests(preference_summary)")
+    .eq("provider_id", provider.id)
+    .order("assigned_at", { ascending: false });
 
   return (
     <Section tone="parchment">
@@ -60,8 +62,7 @@ export default async function ProviderDashboard() {
         <div className="card">
           <h2 className="font-display text-lg font-semibold">Payouts</h2>
           <p className="mt-2 text-sm text-ink/70">
-            Connect a Stripe Express account to receive session payouts. Available once
-            you're verified.
+            Connect a Stripe Express account to receive session payouts.
           </p>
           <div className="mt-4">
             <ConnectOnboardButton disabled={provider.verification_status !== "verified"} />
@@ -79,11 +80,30 @@ export default async function ProviderDashboard() {
       </div>
 
       <div className="mt-6 card">
-        <h2 className="font-display text-lg font-semibold">Referrals</h2>
-        <p className="mt-2 text-sm text-ink/60">
-          No referral inbox data yet — wire this to the <code>referrals</code> table once
-          matching is live.
-        </p>
+        <h2 className="font-display text-lg font-semibold">Referral inbox</h2>
+        {referrals && referrals.length > 0 ? (
+          <ul className="mt-3 space-y-3 text-sm">
+            {referrals.map((r) => {
+              const match = r.care_match_requests as { preference_summary?: Record<string, string> } | null;
+              const pref = match?.preference_summary;
+              return (
+                <li key={r.id} className="rounded-lg border border-ink/10 p-3">
+                  <div className="capitalize text-teal">{r.status}</div>
+                  {pref && (
+                    <div className="mt-1 text-ink/70">
+                      {pref.state} · {pref.servicePreference}
+                    </div>
+                  )}
+                  <div className="text-xs text-ink/50">
+                    {r.assigned_at ? new Date(r.assigned_at).toLocaleString() : ""}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <p className="mt-2 text-sm text-ink/60">No referrals yet. Matches appear here when admin assigns you.</p>
+        )}
       </div>
     </Section>
   );

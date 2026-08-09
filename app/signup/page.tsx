@@ -17,7 +17,8 @@ export default function SignupPage() {
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault();
     setStatus("loading");
-    const { error } = await supabase.auth.signUp({
+    const refCode = new URLSearchParams(window.location.search).get("ref");
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -29,6 +30,13 @@ export default function SignupPage() {
       setErrorMsg(error.message);
       setStatus("error");
       return;
+    }
+    if (refCode && data.user?.id) {
+      await fetch("/api/affiliate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: refCode, userId: data.user.id }),
+      });
     }
     setStatus("done");
   }
