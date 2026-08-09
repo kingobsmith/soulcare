@@ -8,12 +8,18 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 // Create these Prices in the Stripe Dashboard first — see README "Stripe Setup Guide".
 export const PLANS: Record<
   string,
-  { priceEnv: string; mode: "subscription" | "payment"; kind: "membership" | "session" | "provider_network" }
+  {
+    priceEnv: string;
+    mode: "subscription" | "payment";
+    kind: "membership" | "session" | "provider_network";
+    trialDays?: number;
+  }
 > = {
   companion_plus: {
     priceEnv: "STRIPE_PRICE_COMPANION_PLUS",
     mode: "subscription",
-    kind: "membership"
+    kind: "membership",
+    trialDays: 7,
   },
   therapy_session: {
     priceEnv: "STRIPE_PRICE_THERAPY_SESSION",

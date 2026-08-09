@@ -8,8 +8,8 @@ const steps = [
     body: "Open a private conversation with the Soul Care AI companion. There's no form to fill out first — just start where you are. The companion listens, reflects, and helps you name what's going on."
   },
   {
-    title: "Share your preferences",
-    body: "When you're ready for more, the care-match questionnaire asks about faith preference, language, cultural background, specific concerns, location, and availability — never a diagnosis."
+    title: "Sign up and share your preferences",
+    body: "When you're ready for more, tell us about faith preference, language, location, and availability — never a diagnosis."
   },
   {
     title: "Get matched, not marketed to",
@@ -48,8 +48,8 @@ export default function HowItWorksPage() {
           <CrisisNote />
         </div>
         <div className="mt-8">
-          <Link href="/care-match" className="btn-primary">
-            Start with Companion
+          <Link href="/signup" className="btn-primary">
+            Sign up now
           </Link>
         </div>
       </Section>

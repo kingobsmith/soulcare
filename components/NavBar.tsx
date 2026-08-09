@@ -30,8 +30,8 @@ export default function NavBar() {
           <Link href="/login" className="hidden text-sm font-medium text-ink/70 hover:text-ink sm:block">
             Log in
           </Link>
-          <Link href="/care-match" className="btn-primary">
-            Talk to Soul Care
+          <Link href="/signup" className="btn-primary">
+            Sign up now
           </Link>
         </div>
       </div>

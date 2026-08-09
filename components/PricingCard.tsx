@@ -25,7 +25,7 @@ export default function PricingCard({
 
   async function handleCheckout() {
     if (!planKey) {
-      window.location.href = "/care-match";
+      window.location.href = "/signup";
       return;
     }
     setLoading(true);

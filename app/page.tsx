@@ -6,8 +6,8 @@ import PricingCard from "@/components/PricingCard";
 const howItWorks = [
   {
     num: "01",
-    title: "Express your interest",
-    body: "Tell us your state and the kind of support you're looking for — nothing clinical, just a general direction."
+    title: "Sign up free",
+    body: "Create your Soul Care account in minutes. Meet Angel for daily listening and spiritual guidance."
   },
   {
     num: "02",
@@ -52,8 +52,8 @@ export default function HomePage() {
             a professional.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <Link href="/care-match" className="btn-gold">
-              Express interest in care
+            <Link href="/signup" className="btn-gold">
+              Sign up now
             </Link>
             <Link
               href="/providers/apply"
@@ -100,24 +100,20 @@ export default function HomePage() {
 
       {/* AI Companion teaser */}
       <Section tone="parchment">
-        <div className="rounded-2xl border-2 border-dashed border-ink/15 bg-white/50 p-8 md:p-10">
+        <div className="rounded-2xl border border-teal/20 bg-white p-8 md:p-10">
           <div className="flex flex-wrap items-center gap-4">
-            <div className="rounded-xl bg-teal/10 p-3 text-3xl">🤝</div>
+            <div className="rounded-xl bg-teal/10 p-3 text-3xl">✨</div>
             <div>
-              <span className="rounded-full bg-brass/15 px-3 py-1 text-xs font-semibold text-brass">
-                Coming soon
-              </span>
-              <h2 className="mt-1 font-display text-2xl font-semibold">AI Companion</h2>
+              <h2 className="font-display text-2xl font-semibold">Meet Angel</h2>
+              <p className="text-sm text-ink/60">Your daily voice of support</p>
             </div>
           </div>
           <p className="mt-4 max-w-2xl text-sm text-ink/70">
-            A private, faith-sensitive listening companion is in development. When it
-            launches, it will be available inside your member dashboard — with full crisis
-            routing, session controls, and a clear boundary around what it can and cannot
-            do clinically.
+            Angel listens daily, offers sound spiritual guidance, and acts as a bridge to your
+            therapist, doctor, and pastor — with progress reports when you&apos;re ready.
           </p>
           <Link href="/signup" className="btn-primary mt-5 inline-flex">
-            Create an account to be notified
+            Sign up now — free to start
           </Link>
         </div>
       </Section>
@@ -161,30 +157,30 @@ export default function HomePage() {
           <PricingCard
             name="Companion"
             price="Free"
-            description="Create an account, browse resources, and express interest in care."
+            description="Create your account, meet Angel, browse resources, and sign up for care."
             features={[
-              "Member account",
+              "Free member account",
+              "Angel daily check-ins",
               "Resource library",
-              "Provider interest form",
               "Crisis routing"
             ]}
             planKey={null}
-            ctaLabel="Get started free"
+            ctaLabel="Sign up free"
           />
           <PricingCard
             name="Companion Plus"
-            price="$9"
+            price="$9.99"
             cadence="month"
-            description="Angel listens daily, routes crisis support, and bridges you to your care team."
+            description="Angel plus care team progress reports. 7-day free trial — cancel anytime."
             features={[
+              "7-day free trial",
               "Angel daily check-ins",
-              "Resource library",
               "Care team progress reports",
-              "Crisis routing"
+              "Priority provider routing"
             ]}
             planKey="companion_plus"
             featured
-            ctaLabel="Choose Companion Plus"
+            ctaLabel="Start 7-day free trial"
           />
           <PricingCard
             name="Therapy Session"

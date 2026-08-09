@@ -8,11 +8,11 @@ export default function MembershipPage() {
       <Section tone="ink">
         <p className="eyebrow">Membership</p>
         <h1 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">
-          Start free. Upgrade when it helps.
+          Sign up now. Upgrade when it helps.
         </h1>
         <p className="mt-4 max-w-2xl text-parchment/75">
-          Every plan starts with the companion. Paid tiers add depth, priority routing,
-          and access to booked sessions with a licensed provider.
+          Start free with Angel. Companion Plus includes a 7-day free trial, then $9.99/month.
+          You can apply a promotion code at checkout.
         </p>
       </Section>
 
@@ -21,30 +21,30 @@ export default function MembershipPage() {
           <PricingCard
             name="Companion"
             price="Free"
-            description="Guided AI listening, resource library, crisis routing, saved support preferences."
+            description="Sign up free — Angel, resources, crisis routing, and your member dashboard."
             features={[
-              "Guided AI listening companion",
+              "Free account signup",
+              "Angel daily check-ins",
               "Resource library",
-              "Crisis routing",
-              "Saved support preferences"
+              "Crisis routing"
             ]}
             planKey={null}
-            ctaLabel="Start free"
+            ctaLabel="Sign up free"
           />
           <PricingCard
             name="Companion Plus"
-            price="$9"
+            price="$9.99"
             cadence="month"
-            description="Expanded companion access, journaling, and priority care-match routing."
+            description="7-day free trial, then $9.99/month. Angel plus care team progress reports."
             features={[
-              "Expanded AI companion",
-              "Journal & check-ins",
-              "Care-match request",
-              "Priority support routing"
+              "7-day free trial",
+              "Angel daily check-ins",
+              "Care team progress reports",
+              "Priority provider routing"
             ]}
             planKey="companion_plus"
             featured
-            ctaLabel="Choose Companion Plus"
+            ctaLabel="Start 7-day free trial"
           />
           <PricingCard
             name="Therapy Session"
@@ -63,10 +63,8 @@ export default function MembershipPage() {
         </div>
 
         <div className="mt-10 rounded-2xl border border-ink/10 bg-white p-6 text-sm text-ink/60">
-          <strong className="text-ink">A note on Care Membership.</strong> A bundled
-          multi-session monthly plan is planned for a future phase, once provider capacity
-          and payout economics are finalized. Today, sessions are booked and paid
-          individually so pricing always matches what's actually delivered.
+          <strong className="text-ink">Promotion codes.</strong> Have a coupon? Enter it on the
+          Stripe checkout page — click &ldquo;Add promotion code&rdquo; before you pay.
         </div>
 
         <div className="mt-8">

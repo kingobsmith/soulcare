@@ -43,7 +43,10 @@ export async function POST(req: NextRequest) {
         userId: user?.id || "",
         affiliateRef,
       },
-      allow_promotion_codes: true
+      allow_promotion_codes: true,
+      ...(plan.mode === "subscription" && plan.trialDays
+        ? { subscription_data: { trial_period_days: plan.trialDays } }
+        : {}),
     });
 
     return NextResponse.json({ url: session.url });
