@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { stripe, PLANS } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
+import { REF_COOKIE } from "@/lib/affiliate";
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,6 +27,7 @@ export async function POST(req: NextRequest) {
     } = await supabase.auth.getUser();
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || req.nextUrl.origin;
+    const affiliateRef = cookies().get(REF_COOKIE)?.value || "";
 
     const session = await stripe.checkout.sessions.create({
       mode: plan.mode,
@@ -34,7 +37,12 @@ export async function POST(req: NextRequest) {
       cancel_url: `${appUrl}/membership?checkout=cancelled`,
       customer_email: user?.email || undefined,
       client_reference_id: user?.id || undefined,
-      metadata: { planKey, kind: plan.kind, userId: user?.id || "" },
+      metadata: {
+        planKey,
+        kind: plan.kind,
+        userId: user?.id || "",
+        affiliateRef,
+      },
       allow_promotion_codes: true
     });
 

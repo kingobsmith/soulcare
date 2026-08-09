@@ -13,6 +13,11 @@ export default function LoginPage() {
 
   const supabase = createClient();
 
+  function getNext() {
+    if (typeof window === "undefined") return "/app";
+    return new URLSearchParams(window.location.search).get("next") || "/app";
+  }
+
   async function handlePasswordLogin(e: React.FormEvent) {
     e.preventDefault();
     setStatus("loading");
@@ -22,14 +27,15 @@ export default function LoginPage() {
       setStatus("error");
       return;
     }
-    window.location.href = "/app";
+    window.location.href = getNext();
   }
 
   async function handleMagicLink() {
     setStatus("loading");
+    const next = getNext();
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}/app` }
+      options: { emailRedirectTo: `${window.location.origin}${next}` }
     });
     if (error) {
       setErrorMsg(error.message);

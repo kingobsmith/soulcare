@@ -58,6 +58,40 @@ export async function POST(req: NextRequest) {
             { onConflict: "stripe_subscription_id" }
           );
         }
+
+        const affiliateRef = session.metadata?.affiliateRef;
+        if (userId && affiliateRef) {
+          await admin
+            .from("affiliate_attributions")
+            .update({ converted_at: new Date().toISOString() })
+            .eq("referred_user_id", userId)
+            .eq("referral_code", affiliateRef);
+
+          const { data: affiliate } = await admin
+            .from("affiliates")
+            .select("user_id")
+            .eq("referral_code", affiliateRef)
+            .eq("status", "approved")
+            .maybeSingle();
+
+          if (affiliate) {
+            const { data: existing } = await admin
+              .from("affiliate_attributions")
+              .select("id")
+              .eq("referred_user_id", userId)
+              .maybeSingle();
+
+            if (!existing) {
+              await admin.from("affiliate_attributions").insert({
+                affiliate_id: affiliate.user_id,
+                referred_user_id: userId,
+                referral_code: affiliateRef,
+                source: "checkout",
+                converted_at: new Date().toISOString(),
+              });
+            }
+          }
+        }
         break;
       }
 

@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import Section from "@/components/Section";
 import { ProviderAdminActions } from "@/components/ProviderAdminActions";
 import { CareMatchAdminActions } from "@/components/CareMatchAdminActions";
+import { AffiliateAdminActions } from "@/components/AffiliateAdminActions";
 
 export default async function AdminPage() {
   const supabase = createClient();
@@ -44,6 +45,14 @@ export default async function AdminPage() {
     .select("id, public_name")
     .eq("verification_status", "verified")
     .order("public_name");
+
+  const { data: affiliateApps } = await supabase
+    .from("affiliates")
+    .select("*")
+    .order("applied_at", { ascending: true });
+
+  const pendingAffiliates = affiliateApps?.filter((a) => a.status === "pending") ?? [];
+  const otherAffiliates = affiliateApps?.filter((a) => a.status !== "pending") ?? [];
 
   return (
     <Section tone="parchment">
@@ -98,6 +107,46 @@ export default async function AdminPage() {
             )}
           </ul>
         </div>
+      </div>
+
+      <div className="mt-10 card">
+        <h2 className="font-display text-lg font-semibold">
+          Affiliate applications ({pendingAffiliates.length})
+        </h2>
+        <ul className="mt-4 space-y-3 text-sm">
+          {pendingAffiliates.map((a) => (
+            <li key={a.id} className="rounded-lg border border-ink/10 p-3">
+              <div className="font-medium">{a.legal_name}</div>
+              <div className="text-ink/60">{a.organization_name || a.audience_type}</div>
+              <div className="mt-1 text-xs text-ink/50">{a.city}, {a.country}</div>
+              <p className="mt-2 text-xs text-ink/65">{a.promotion_plan}</p>
+              <AffiliateAdminActions affiliateId={a.id} />
+            </li>
+          ))}
+          {pendingAffiliates.length === 0 && (
+            <p className="text-ink/50">No pending affiliate applications.</p>
+          )}
+        </ul>
+
+        {otherAffiliates.length > 0 && (
+          <div className="mt-8 border-t border-ink/10 pt-6">
+            <h3 className="font-display text-base font-semibold">All affiliates</h3>
+            <ul className="mt-3 space-y-2 text-sm">
+              {otherAffiliates.map((a) => (
+                <li key={a.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-ink/10 p-3">
+                  <div>
+                    <span className="font-medium">{a.legal_name}</span>
+                    <span className="ml-2 capitalize text-teal">{a.status}</span>
+                    {a.referral_code && (
+                      <span className="ml-2 text-xs text-ink/50">{a.referral_code}</span>
+                    )}
+                  </div>
+                  {a.status !== "rejected" && <AffiliateAdminActions affiliateId={a.id} />}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </Section>
   );

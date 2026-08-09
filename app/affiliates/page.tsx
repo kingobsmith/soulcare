@@ -10,76 +10,79 @@ const prohibited = [
   "Imply affiliation with a government agency, hospital, insurer, or church without written permission",
 ];
 
+const steps = [
+  { num: "1", title: "Apply", body: "Create your account and complete the affiliate application in minutes." },
+  { num: "2", title: "Review", body: "Our team reviews your application before any referral link is activated." },
+  { num: "3", title: "Share", body: "Once approved, use your unique referral link with required disclosure." },
+  { num: "4", title: "Track", body: "Monitor sign-ups and qualifying memberships from your dashboard." },
+];
+
 export default function AffiliatesPage() {
   return (
     <>
       <Section tone="ink">
-        <p className="eyebrow">Affiliate program</p>
+        <p className="eyebrow">Affiliate Partner Program</p>
         <h1 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">
           Partner with Soul Care.
         </h1>
         <p className="mt-4 max-w-2xl text-parchment/75">
-          Churches, community organizations, and approved partners can help connect
-          people to Soul Care and earn a share of the impact they create.
+          Help people discover Soul Care. Apply in minutes, receive your unique referral link after
+          approval, and earn commissions on qualifying paid memberships.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Link href="/affiliates/join" className="btn-gold">
+            Become an Affiliate
+          </Link>
+          <Link
+            href="/login?next=/affiliate/dashboard"
+            className="btn-secondary border-parchment/30 text-parchment hover:bg-parchment hover:text-ink"
+          >
+            Affiliate Log In
+          </Link>
+        </div>
+        <p className="mt-6 max-w-xl text-sm text-parchment/60">
+          Approval is required before referral links and commissions are activated.
         </p>
       </Section>
 
       <Section tone="parchment">
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-4">
+          {steps.map((s) => (
+            <div key={s.num} className="card">
+              <span className="font-display text-3xl text-brass">{s.num}</span>
+              <h3 className="mt-3 font-display text-lg font-semibold">{s.title}</h3>
+              <p className="mt-2 text-sm text-ink/70">{s.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-10 grid gap-8 md:grid-cols-2">
           <div className="card">
-            <span className="mb-3 inline-block w-fit rounded-full bg-teal/10 px-3 py-1 text-xs font-semibold text-teal">
-              Dashboard launching soon
-            </span>
-            <h2 className="font-display text-2xl font-semibold">How it works</h2>
+            <h2 className="font-display text-xl font-semibold">Required disclosure</h2>
             <p className="mt-3 text-sm text-ink/70">
-              Approved affiliates receive a unique referral link and earn a commission on
-              qualifying paid memberships they introduce. Commissions are paid monthly
-              after a holding period, once the affiliate policy and agreement are
-              finalized.
+              All affiliates must clearly disclose their relationship with Soul Care wherever they
+              promote it. Example disclosure:
             </p>
-            <p className="mt-3 text-sm text-ink/70">
-              The affiliate dashboard — referral links, attribution tracking, and payout
-              reporting — is in development. Payouts will not activate until the
-              commission agreement, tracking rules, refund handling, and tax requirements
-              are published.
-            </p>
-            <Link href="/contact" className="btn-primary mt-6 inline-flex">
-              Express interest
+            <blockquote className="mt-3 rounded-lg bg-parchment p-4 text-sm italic text-ink/65">
+              &ldquo;I may receive a commission if you join Soul Care through my link.&rdquo;
+            </blockquote>
+            <Link href="/affiliate/terms" className="mt-4 inline-block text-sm font-semibold text-teal underline underline-offset-2">
+              Read Affiliate Terms →
             </Link>
           </div>
 
           <div className="card">
-            <h2 className="font-display text-xl font-semibold">Required disclosure</h2>
-            <p className="mt-3 text-sm text-ink/70">
-              All affiliates must clearly disclose their relationship with Soul Care
-              wherever they promote it. Example disclosure:
-            </p>
-            <blockquote className="mt-3 rounded-lg bg-parchment p-4 text-sm italic text-ink/65">
-              "I may receive a commission if you join Soul Care through my link."
-            </blockquote>
-            <p className="mt-3 text-xs text-ink/50">
-              FTC guidelines require clear, conspicuous disclosure of any material
-              affiliate relationship.
-            </p>
+            <h2 className="font-display text-xl font-semibold">What affiliates may not do</h2>
+            <ul className="mt-4 space-y-2">
+              {prohibited.map((p) => (
+                <li key={p} className="flex items-start gap-2 text-sm text-ink/70">
+                  <span className="mt-0.5 text-clay">✗</span>
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-
-        <div className="mt-8 card">
-          <h2 className="font-display text-xl font-semibold">What affiliates may not do</h2>
-          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-            {prohibited.map((p) => (
-              <li key={p} className="flex items-start gap-2 text-sm text-ink/70">
-                <span className="mt-0.5 text-clay">✗</span>
-                <span>{p}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <p className="mt-6 text-xs text-ink/50">
-          Full affiliate program policy and agreement will be published before the
-          dashboard and payouts go live.
-        </p>
       </Section>
     </>
   );
