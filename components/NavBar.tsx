@@ -4,8 +4,9 @@ const links = [
   { href: "/how-it-works", label: "How it works" },
   { href: "/membership", label: "Membership" },
   { href: "/providers", label: "For providers" },
+  { href: "/affiliates", label: "Affiliate Program", bold: true },
   { href: "/resources", label: "Resources" },
-  { href: "/about", label: "About" }
+  { href: "/about", label: "About" },
 ];
 
 export default function NavBar() {
@@ -15,18 +16,26 @@ export default function NavBar() {
         <Link href="/" className="font-display text-xl font-semibold tracking-tight text-ink">
           Soul Care
         </Link>
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav className="hidden items-center gap-6 lg:flex">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className="text-sm text-ink/70 transition hover:text-ink"
+              className={`text-sm transition hover:text-ink ${
+                l.bold ? "font-semibold text-teal" : "text-ink/70"
+              }`}
             >
               {l.label}
             </Link>
           ))}
         </nav>
         <div className="flex items-center gap-3">
+          <Link
+            href="/affiliates"
+            className="hidden text-sm font-semibold text-teal hover:text-teal-dark md:block lg:hidden"
+          >
+            Affiliate Program
+          </Link>
           <Link href="/login" className="hidden text-sm font-medium text-ink/70 hover:text-ink sm:block">
             Log in
           </Link>

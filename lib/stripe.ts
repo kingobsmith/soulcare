@@ -4,8 +4,6 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2024-06-20"
 });
 
-// Maps the plan keys used in the UI to Stripe Price IDs and the checkout mode.
-// Create these Prices in the Stripe Dashboard first — see README "Stripe Setup Guide".
 export const PLANS: Record<
   string,
   {
@@ -21,14 +19,24 @@ export const PLANS: Record<
     kind: "membership",
     trialDays: 7,
   },
+  preferred_care: {
+    priceEnv: "STRIPE_PRICE_PREFERRED_CARE",
+    mode: "subscription",
+    kind: "membership",
+  },
   therapy_session: {
     priceEnv: "STRIPE_PRICE_THERAPY_SESSION",
     mode: "payment",
-    kind: "session"
+    kind: "session",
   },
   provider_network: {
     priceEnv: "STRIPE_PRICE_PROVIDER_NETWORK",
     mode: "subscription",
-    kind: "provider_network"
-  }
+    kind: "provider_network",
+  },
+  preferred_provider: {
+    priceEnv: "STRIPE_PRICE_PREFERRED_PROVIDER",
+    mode: "subscription",
+    kind: "provider_network",
+  },
 };

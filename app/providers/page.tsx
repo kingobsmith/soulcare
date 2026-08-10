@@ -1,13 +1,14 @@
 import Link from "next/link";
 import Section from "@/components/Section";
 import PricingCard from "@/components/PricingCard";
+import { GLOBAL_REACH } from "@/components/PricingGrids";
 
 const benefits = [
   "Verified professional profile with specialty, language, and faith-preference matching",
   "Availability controls you set and change any time",
   "A referral dashboard — accept or decline, on your terms",
   "Stripe Connect payouts after completed sessions",
-  "Access to affiliate and community-partner referral tools"
+  "Access to affiliate and community-partner referral tools",
 ];
 
 export default function ProvidersPage() {
@@ -19,10 +20,11 @@ export default function ProvidersPage() {
           Referrals from people who are ready for you.
         </h1>
         <p className="mt-4 max-w-2xl text-parchment/75">
-          Soul Care does the hard first conversation. By the time a member reaches you,
-          they've named what they need and been matched on specialty, language, faith
-          preference, and location.
+          Soul Care does the hard first conversation. By the time a member reaches you, they&apos;ve
+          named what they need and been matched on specialty, language, faith preference, and
+          location.
         </p>
+        <p className="mt-3 max-w-2xl text-sm text-brass-light/90">{GLOBAL_REACH}</p>
         <Link href="/providers/apply" className="btn-gold mt-6 inline-flex">
           Apply to join the network
         </Link>
@@ -46,8 +48,8 @@ export default function ProvidersPage() {
             <h3 className="font-display text-2xl font-semibold">Apply</h3>
             <div className="mt-2 text-3xl font-semibold">Free</div>
             <p className="mt-3 text-sm text-ink/70">
-              Submit your credentials for review. No public listing or referrals until
-              you're verified.
+              Submit your credentials for review. No public listing or referrals until you&apos;re
+              verified.
             </p>
             <Link href="/providers/apply" className="btn-secondary mt-8 w-full">
               Start application
@@ -57,36 +59,34 @@ export default function ProvidersPage() {
             name="Provider Network"
             price="$49.99"
             cadence="month"
-            description="Verified profile, matching eligibility, referral dashboard, availability controls, and affiliate/referral tools."
+            description="Track patients and be part of the global Soul Care network."
             features={[
-              "Verified public profile",
-              "Matching eligibility",
-              "Referral dashboard",
-              "Availability controls",
-              "Affiliate & referral tools"
+              "Track patients in your dashboard",
+              "Verified profile in the global network",
+              "Referral accept/decline controls",
+              "Stripe Connect payouts",
             ]}
             planKey="provider_network"
-            featured
-            ctaLabel="Subscribe after verification"
+            ctaLabel="Join Provider Network"
           />
-          <div className="card">
-            <span className="mb-3 inline-block w-fit rounded-full bg-teal/10 px-3 py-1 text-xs font-semibold text-teal">
-              Limited offer
-            </span>
-            <h3 className="font-display text-2xl font-semibold">Founding Provider</h3>
-            <div className="mt-2 text-3xl font-semibold">Locked rate</div>
-            <p className="mt-3 text-sm text-ink/70">
-              Same network access with a founder badge and a locked introductory price.
-              Capped in number and by date — ask during your application.
-            </p>
-            <Link href="/providers/apply" className="btn-secondary mt-8 w-full">
-              Ask about founding pricing
-            </Link>
-          </div>
+          <PricingCard
+            name="Preferred Provider"
+            price="$99.99"
+            cadence="month"
+            description="Preferred status with new patient inquiries and leads."
+            features={[
+              "Preferred provider badge",
+              "New patient inquiries & leads",
+              "Priority matching placement",
+              "Everything in Provider Network",
+            ]}
+            planKey="preferred_provider"
+            featured
+            ctaLabel="Become a Preferred Provider"
+          />
         </div>
         <p className="mt-6 text-xs text-ink/50">
-          Provider Network billing activates only after your application is verified by
-          the Soul Care admin team.
+          Provider billing activates after your application is verified by the Soul Care admin team.
         </p>
       </Section>
     </>

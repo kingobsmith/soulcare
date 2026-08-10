@@ -71,7 +71,7 @@ export default async function ProviderDashboard() {
         <div className="card">
           <h2 className="font-display text-lg font-semibold">Provider Network billing</h2>
           <p className="mt-2 text-sm text-ink/70">
-            Manage your $49.99/month Provider Network subscription.
+            Manage your Provider Network or Preferred Provider subscription.
           </p>
           <div className="mt-4">
             <ManageBillingButton />

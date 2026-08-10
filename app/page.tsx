@@ -1,31 +1,47 @@
 import Link from "next/link";
 import Section from "@/components/Section";
 import CrisisNote from "@/components/CrisisNote";
-import PricingCard from "@/components/PricingCard";
+import {
+  GLOBAL_REACH,
+  MemberPricingGrid,
+  ProviderPricingGrid,
+} from "@/components/PricingGrids";
 
 const howItWorks = [
   {
     num: "01",
     title: "Sign up free",
-    body: "Create your Soul Care account in minutes. Meet Angel for daily listening and spiritual guidance."
+    body: "Create your Soul Care account in minutes. Meet Angel for daily listening and spiritual guidance.",
   },
   {
     num: "02",
     title: "Get matched to a real provider",
-    body: "Soul Care routes your request to vetted, licensed professionals matched on specialty, language, and faith preference."
+    body: "Soul Care routes your request to vetted, licensed professionals matched on specialty, language, and faith preference.",
   },
   {
     num: "03",
     title: "Book with confidence",
-    body: "Choose a provider and book a session. Every provider is manually verified before appearing in matching."
-  }
+    body: "Choose a provider and book a session. Every provider is manually verified before appearing in matching.",
+  },
 ];
 
 const cards = [
-  { title: "Faith-sensitive preferences", body: "Tell us what matters spiritually — or opt out entirely. Your care should fit your whole self." },
-  { title: "Cultural & language matching", body: "Find a provider who understands your background and speaks your language." },
-  { title: "Licensed provider pathway", body: "Every clinical provider is manually verified — license, credentials, and insurance — before any member sees their profile." },
-  { title: "Private, mobile-first tools", body: "A calm, quiet interface built for the moments you need it most, on any device." }
+  {
+    title: "Faith-sensitive preferences",
+    body: "Tell us what matters spiritually — or opt out entirely. Your care should fit your whole self.",
+  },
+  {
+    title: "Cultural & language matching",
+    body: "Find a provider who understands your background and speaks your language.",
+  },
+  {
+    title: "Licensed provider pathway",
+    body: "Every clinical provider is manually verified — license, credentials, and insurance — before any member sees their profile.",
+  },
+  {
+    title: "Private, mobile-first tools",
+    body: "A calm, quiet interface built for the moments you need it most, on any device.",
+  },
 ];
 
 const providerBullets = [
@@ -33,13 +49,12 @@ const providerBullets = [
   "Specialty, language & faith-preference matching",
   "Availability controls you set anytime",
   "Referral dashboard — accept or decline on your terms",
-  "Stripe Connect payouts after completed sessions"
+  "Stripe Connect payouts after completed sessions",
 ];
 
 export default function HomePage() {
   return (
     <>
-      {/* Hero */}
       <section className="bg-ink text-parchment">
         <div className="mx-auto max-w-6xl px-6 pb-24 pt-24">
           <p className="eyebrow text-brass">Soul Care</p>
@@ -51,6 +66,7 @@ export default function HomePage() {
             and keeps your therapist, doctor, and pastor aligned with progress reports until you see
             a professional.
           </p>
+          <p className="mt-4 max-w-2xl text-sm text-brass-light/90">{GLOBAL_REACH}</p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link href="/signup" className="btn-gold">
               Sign up now
@@ -63,15 +79,13 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="mt-8 max-w-xl text-xs text-parchment/55">
-            Soul Care is not crisis care or a substitute for professional treatment. If you
-            are in immediate danger or thinking about harming yourself or others, call
-            emergency services or{" "}
-            <strong className="text-parchment/80">988</strong> in the U.S.
+            Soul Care is not crisis care or a substitute for professional treatment. If you are in
+            immediate danger or thinking about harming yourself or others, call emergency services
+            or <strong className="text-parchment/80">988</strong> in the U.S.
           </div>
         </div>
       </section>
 
-      {/* How it works */}
       <Section tone="parchment">
         <p className="eyebrow">How Soul Care works</p>
         <div className="mt-6 grid gap-8 md:grid-cols-3">
@@ -85,7 +99,6 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Built for the whole person */}
       <Section tone="white">
         <p className="eyebrow">Built for the whole person</p>
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -98,7 +111,6 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* AI Companion teaser */}
       <Section tone="parchment">
         <div className="rounded-2xl border border-teal/20 bg-white p-8 md:p-10">
           <div className="flex flex-wrap items-center gap-4">
@@ -118,7 +130,6 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* For providers */}
       <section className="bg-teal-dark text-parchment">
         <div className="mx-auto max-w-6xl px-6 py-20">
           <div className="grid gap-10 md:grid-cols-2 md:items-center">
@@ -128,8 +139,8 @@ export default function HomePage() {
                 Your work starts before the first session.
               </h2>
               <p className="mt-4 text-parchment/75">
-                Soul Care helps members name what they need, then routes qualified
-                requests to providers equipped to serve them.
+                Soul Care helps members name what they need, then routes qualified requests to
+                providers equipped to serve them across our global network.
               </p>
               <Link href="/providers/apply" className="btn-gold mt-6 inline-flex">
                 Apply in about 6 minutes
@@ -147,77 +158,40 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Pricing */}
       <Section tone="parchment">
-        <p className="eyebrow">Pricing</p>
-        <h2 className="mt-2 font-display text-3xl font-semibold">
-          Start free. Upgrade when it helps.
-        </h2>
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
-          <PricingCard
-            name="Companion"
-            price="Free"
-            description="Create your account, meet Angel, browse resources, and sign up for care."
-            features={[
-              "Free member account",
-              "Angel daily check-ins",
-              "Resource library",
-              "Crisis routing"
-            ]}
-            planKey={null}
-            ctaLabel="Sign up free"
-          />
-          <PricingCard
-            name="Companion Plus"
-            price="$9.99"
-            cadence="month"
-            description="Angel plus care team progress reports. 7-day free trial — cancel anytime."
-            features={[
-              "7-day free trial",
-              "Angel daily check-ins",
-              "Care team progress reports",
-              "Priority provider routing"
-            ]}
-            planKey="companion_plus"
-            featured
-            ctaLabel="Start 7-day free trial"
-          />
-          <PricingCard
-            name="Therapy Session"
-            price="$50"
-            cadence="session"
-            description="One booked session with a verified, licensed provider."
-            features={[
-              "One booked session",
-              "Verified, licensed provider",
-              "Faith & language matching",
-              "Secure scheduling"
-            ]}
-            planKey="therapy_session"
-            ctaLabel="Book a session"
-          />
+        <p className="eyebrow">Membership pricing</p>
+        <h2 className="mt-2 font-display text-3xl font-semibold">Sign up now. Upgrade when it helps.</h2>
+        <p className="mt-3 max-w-3xl text-sm text-ink/65">{GLOBAL_REACH}</p>
+        <div className="mt-8">
+          <MemberPricingGrid />
         </div>
-        <p className="mt-5 text-sm text-ink/60">
-          Licensed providers?{" "}
+
+        <p className="mt-12 eyebrow">For providers</p>
+        <h3 className="mt-2 font-display text-2xl font-semibold">Grow with the Soul Care network</h3>
+        <div className="mt-6">
+          <ProviderPricingGrid />
+        </div>
+        <p className="mt-6 text-sm text-ink/60">
+          Licensed providers —{" "}
           <Link href="/providers" className="font-semibold text-teal underline underline-offset-2">
-            See provider network pricing →
+            learn more about joining →
+          </Link>
+          {" · "}
+          <Link href="/affiliates" className="font-semibold text-teal underline underline-offset-2">
+            become an affiliate partner →
           </Link>
         </p>
       </Section>
 
-      {/* Mission + crisis note */}
       <Section tone="white">
         <div className="grid gap-10 md:grid-cols-2 md:items-center">
           <div>
             <p className="eyebrow">Our mission</p>
-            <h2 className="mt-2 font-display text-3xl font-semibold">
-              Care that honors the whole story.
-            </h2>
+            <h2 className="mt-2 font-display text-3xl font-semibold">Care that honors the whole story.</h2>
             <p className="mt-4 text-ink/70">
-              Soul Care was built to remove the first, hardest step toward getting
-              help — admitting you need it. We hold that moment with care, then
-              connect you to licensed professionals equipped to walk the rest of the
-              way with you.
+              Soul Care was built to remove the first, hardest step toward getting help — admitting
+              you need it. We hold that moment with care, then connect you to licensed professionals
+              equipped to walk the rest of the way with you.
             </p>
           </div>
           <CrisisNote />
