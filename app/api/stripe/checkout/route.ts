@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { stripe, PLANS } from "@/lib/stripe";
+import { stripe, PLANS, resolvePriceId } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
 import { REF_COOKIE } from "@/lib/affiliate";
 
@@ -13,10 +13,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unknown plan." }, { status: 400 });
     }
 
-    const priceId = process.env[plan.priceEnv];
+    const priceId = resolvePriceId(planKey);
     if (!priceId) {
       return NextResponse.json(
-        { error: `Missing ${plan.priceEnv} environment variable. Add it in Vercel and Stripe.` },
+        { error: `Missing Stripe price for ${planKey}. Set ${plan.priceEnv} in Vercel.` },
         { status: 500 }
       );
     }

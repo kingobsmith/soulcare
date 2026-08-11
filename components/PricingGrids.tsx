@@ -3,102 +3,90 @@ import PricingCard from "@/components/PricingCard";
 export const GLOBAL_REACH =
   "SoulCare serves North America, South America, African Nations, Europe, and Asia in a growing global network.";
 
-export function MemberPricingGrid({ featuredPlan = "companion_plus" }: { featuredPlan?: string }) {
+export function ConsumerPricingGrid() {
   return (
-    <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-6 md:grid-cols-2">
       <PricingCard
-        name="Companion"
-        price="Free"
-        description="Sign up free — Angel, resources, crisis routing, and your member dashboard."
-        features={[
-          "Free account signup",
-          "Angel daily check-ins",
-          "Resource library",
-          "Crisis routing",
-        ]}
-        planKey={null}
-        ctaLabel="Sign up free"
-      />
-      <PricingCard
-        name="Companion Plus"
+        name="Listen & Guidance"
         price="$19.99"
         cadence="month"
-        description="Angel plus care team progress reports. 7-day free trial — cancel anytime."
+        description="AI listening, encouragement, and general advice through Angel."
+        disclaimer="Supportive guidance only. Not therapy, medical care, or a referral service."
         features={[
-          "7-day free trial",
-          "Angel daily check-ins",
-          "Care team progress reports",
-          "Priority provider routing",
+          "Daily Angel listening & encouragement",
+          "Faith-sensitive spiritual guidance",
+          "Crisis routing when needed",
+          "Private member dashboard",
         ]}
-        planKey="companion_plus"
-        featured={featuredPlan === "companion_plus"}
-        ctaLabel="Start 7-day free trial"
+        planKey="listen_guidance"
+        accent="warm"
+        ctaLabel="Checkout — $19.99/mo"
       />
       <PricingCard
         name="Preferred Care"
         price="$29.99"
         cadence="month"
-        description="Angel chat-back plus help connecting to doctors and therapists."
+        description="Chat support with help connecting to doctors, therapists, or your existing care team."
         features={[
-          "Everything in Companion Plus",
+          "Everything in Listen & Guidance",
           "Angel chat-back support",
-          "Doctor & therapist connection help",
-          "Priority care team liaison",
+          "Help connecting to doctors or therapists",
+          "Liaison to your existing care team",
         ]}
         planKey="preferred_care"
-        featured={featuredPlan === "preferred_care"}
-        ctaLabel="Choose Preferred Care"
-      />
-      <PricingCard
-        name="Therapy Session"
-        price="$50"
-        cadence="session"
-        description="One booked session with a verified, licensed provider."
-        features={[
-          "One booked session",
-          "Verified, licensed provider",
-          "Faith & language matching",
-          "Secure scheduling",
-        ]}
-        planKey="therapy_session"
-        ctaLabel="Book a session"
+        featured
+        accent="warmPlus"
+        ctaLabel="Checkout — $29.99/mo"
       />
     </div>
   );
 }
 
-export function ProviderPricingGrid() {
+export function ProfessionalPricingGrid() {
   return (
     <div className="grid gap-6 md:grid-cols-2">
       <PricingCard
-        name="Provider Network"
+        name="Professional Care"
         price="$49.99"
         cadence="month"
-        description="Join the global Soul Care provider network."
+        description="For doctors, therapists, and pastors staying connected with the patients, clients, or people they already serve."
         features={[
-          "Track patients in your referral dashboard",
-          "Verified profile in the global network",
-          "Accept or decline referrals on your terms",
-          "Stripe Connect payouts after sessions",
+          "Stay connected with people you already serve",
+          "Communication & progress touchpoints",
+          "Referral dashboard for your practice",
+          "Part of the global Soul Care network",
         ]}
-        planKey="provider_network"
-        ctaLabel="Join Provider Network"
+        planKey="professional_care"
+        accent="pro"
+        ctaLabel="Checkout — $49.99/mo"
       />
       <PricingCard
-        name="Preferred Provider"
+        name="Professional Growth"
         price="$99.99"
         cadence="month"
-        description="Stand out as a preferred provider in the Soul Care network."
+        description="Everything in Professional Care, plus opt-in leads for potential new patients, clients, or members."
         features={[
-          "Preferred provider status & badge",
-          "Receive new patient inquiries and leads",
-          "Priority placement in member matching",
-          "Everything in Provider Network",
+          "Everything in Professional Care",
+          "Opt-in new patient & client inquiries",
+          "Preferred placement for new leads",
+          "For doctors, therapists & pastors",
         ]}
-        planKey="preferred_provider"
+        planKey="professional_growth"
         featured
-        ctaLabel="Become a Preferred Provider"
+        accent="proPlus"
+        ctaLabel="Checkout — $99.99/mo"
       />
     </div>
+  );
+}
+
+export function AllPlansGrid() {
+  return (
+    <>
+      <ConsumerPricingGrid />
+      <div className="mt-10">
+        <ProfessionalPricingGrid />
+      </div>
+    </>
   );
 }
