@@ -8,7 +8,7 @@ export function ConsumerPricingGrid() {
     <div className="grid gap-6 md:grid-cols-2">
       <PricingCard
         name="Listen & Guidance"
-        price="$19.99"
+        price="$9.99"
         cadence="month"
         description="AI listening, encouragement, and general advice through Angel."
         disclaimer="Supportive guidance only. Not therapy, medical care, or a referral service."
@@ -20,11 +20,11 @@ export function ConsumerPricingGrid() {
         ]}
         planKey="listen_guidance"
         accent="warm"
-        ctaLabel="Checkout — $19.99/mo"
+        ctaLabel="Checkout — $9.99/mo"
       />
       <PricingCard
         name="Preferred Care"
-        price="$29.99"
+        price="$19.99"
         cadence="month"
         description="Chat support with help connecting to doctors, therapists, or your existing care team."
         features={[
@@ -36,7 +36,7 @@ export function ConsumerPricingGrid() {
         planKey="preferred_care"
         featured
         accent="warmPlus"
-        ctaLabel="Checkout — $29.99/mo"
+        ctaLabel="Checkout — $19.99/mo"
       />
     </div>
   );
