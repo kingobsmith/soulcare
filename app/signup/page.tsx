@@ -14,16 +14,22 @@ export default function SignupPage() {
 
   const supabase = createClient();
 
+  function getNext() {
+    if (typeof window === "undefined") return "/app";
+    return new URLSearchParams(window.location.search).get("next") || "/app";
+  }
+
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault();
     setStatus("loading");
+    const next = getNext();
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: { full_name: fullName },
-        emailRedirectTo: `${window.location.origin}/app`
-      }
+        emailRedirectTo: `${window.location.origin}${next}`,
+      },
     });
     if (error) {
       setErrorMsg(error.message);
@@ -33,6 +39,10 @@ export default function SignupPage() {
     if (data.user?.id) {
       await fetch("/api/affiliates/attribute", { method: "POST" });
     }
+    if (data.session) {
+      window.location.href = next;
+      return;
+    }
     setStatus("done");
   }
 
@@ -40,7 +50,7 @@ export default function SignupPage() {
     return (
       <Section tone="parchment" className="text-center">
         <h1 className="font-display text-2xl font-semibold">Check your email</h1>
-        <p className="mt-3 text-ink/70">Confirm your account to finish signing up.</p>
+        <p className="mt-3 text-ink/70">Confirm your account to finish signing up, then continue checkout.</p>
       </Section>
     );
   }
@@ -49,6 +59,7 @@ export default function SignupPage() {
     <Section tone="parchment" className="flex justify-center">
       <div className="card w-full max-w-md">
         <h1 className="font-display text-2xl font-semibold">Create your account</h1>
+        <p className="mt-2 text-sm text-ink/60">Required before checkout.</p>
         <form onSubmit={handleSignup} className="mt-6 grid gap-4">
           <div>
             <label className="label">Full name</label>
@@ -82,7 +93,10 @@ export default function SignupPage() {
         </form>
         <p className="mt-6 text-sm text-ink/60">
           Already have an account?{" "}
-          <Link href="/login" className="font-semibold text-teal underline underline-offset-2">
+          <Link
+            href={`/login?next=${encodeURIComponent(typeof window !== "undefined" ? getNext() : "/app")}`}
+            className="font-semibold text-teal underline underline-offset-2"
+          >
             Log in
           </Link>
         </p>

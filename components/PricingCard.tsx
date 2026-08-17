@@ -43,6 +43,13 @@ export default function PricingCard({
         body: JSON.stringify({ planKey }),
       });
       const data = await res.json();
+
+      if (res.status === 401 || data?.code === "auth_required") {
+        const next = encodeURIComponent(`/membership?plan=${planKey}`);
+        window.location.href = `/login?next=${next}`;
+        return;
+      }
+
       if (data?.url) {
         window.location.href = data.url;
       } else {
@@ -96,6 +103,7 @@ export default function PricingCard({
         >
           {loading ? "Opening checkout…" : ctaLabel}
         </button>
+        <p className="mt-2 text-center text-xs text-ink/50">Log in or sign up required</p>
       </div>
     </div>
   );

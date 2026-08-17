@@ -3,9 +3,20 @@ import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { createServiceClient } from "@/lib/supabase/server";
 
-// Stripe requires the raw request body to verify the signature — do not
-// let Next.js parse it as JSON.
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+const VALID_KINDS = new Set(["membership", "session", "provider_network"]);
+
+function paymentKind(raw: string | null | undefined) {
+  if (raw && VALID_KINDS.has(raw)) return raw;
+  return "membership";
+}
+
+function asId(value: unknown): string | null {
+  if (typeof value === "string" && value.length > 0) return value;
+  return null;
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -13,50 +24,55 @@ export async function POST(req: NextRequest) {
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
   if (!signature || !webhookSecret) {
+    console.error("Webhook missing signature or STRIPE_WEBHOOK_SECRET");
     return NextResponse.json({ error: "Missing signature or webhook secret." }, { status: 400 });
   }
 
   let event: Stripe.Event;
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
-  } catch (err: any) {
-    console.error("Webhook signature verification failed:", err.message);
-    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Invalid signature";
+    console.error("Webhook signature verification failed:", message);
+    return NextResponse.json({ error: `Webhook Error: ${message}` }, { status: 400 });
   }
 
-  const admin = createServiceClient();
-
   try {
+    const admin = createServiceClient();
+
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
-        const userId = session.metadata?.userId || session.client_reference_id || null;
-        const kind = session.metadata?.kind || "membership";
+        const userId =
+          asId(session.metadata?.userId) || asId(session.client_reference_id);
+        const kind = paymentKind(session.metadata?.kind);
         const planKey = session.metadata?.planKey || null;
 
-        await admin.from("payments").insert({
+        const { error: payErr } = await admin.from("payments").insert({
           user_id: userId,
-          stripe_payment_intent_id:
-            typeof session.payment_intent === "string" ? session.payment_intent : null,
+          stripe_payment_intent_id: asId(session.payment_intent),
           kind,
           amount_cents: session.amount_total,
-          currency: session.currency,
-          status: session.payment_status
+          currency: session.currency || "usd",
+          status: session.payment_status || "paid",
         });
+        if (payErr) console.error("payments insert error:", payErr);
 
         if (session.mode === "subscription" && session.subscription) {
-          await admin.from("subscriptions").upsert(
-            {
-              user_id: userId,
-              stripe_customer_id:
-                typeof session.customer === "string" ? session.customer : null,
-              stripe_subscription_id:
-                typeof session.subscription === "string" ? session.subscription : null,
-              plan_key: planKey,
-              status: "active"
-            },
-            { onConflict: "stripe_subscription_id" }
-          );
+          const subId = asId(session.subscription);
+          if (subId) {
+            const { error: subErr } = await admin.from("subscriptions").upsert(
+              {
+                user_id: userId,
+                stripe_customer_id: asId(session.customer),
+                stripe_subscription_id: subId,
+                plan_key: planKey,
+                status: "active",
+              },
+              { onConflict: "stripe_subscription_id" }
+            );
+            if (subErr) console.error("subscriptions upsert error:", subErr);
+          }
         }
 
         const affiliateRef = session.metadata?.affiliateRef;
@@ -114,19 +130,14 @@ export async function POST(req: NextRequest) {
         break;
       }
 
-      case "invoice.paid": {
-        const invoice = event.data.object as Stripe.Invoice;
-        console.log("Invoice paid:", invoice.id);
-        break;
-      }
-
       case "invoice.payment_failed": {
         const invoice = event.data.object as Stripe.Invoice;
-        if (invoice.subscription) {
+        const subId = asId(invoice.subscription);
+        if (subId) {
           await admin
             .from("subscriptions")
             .update({ status: "past_due" })
-            .eq("stripe_subscription_id", invoice.subscription as string);
+            .eq("stripe_subscription_id", subId);
         }
         break;
       }
@@ -149,32 +160,20 @@ export async function POST(req: NextRequest) {
         break;
       }
 
-      case "account.updated": {
-        const account = event.data.object as Stripe.Account;
-        console.log("Connect account updated:", account.id, account.charges_enabled);
-        break;
-      }
-
-      case "transfer.created": {
-        const transfer = event.data.object as Stripe.Transfer;
-        console.log("Transfer created:", transfer.id);
-        break;
-      }
-
+      case "invoice.paid":
+      case "account.updated":
+      case "transfer.created":
       case "payout.paid":
-      case "payout.failed": {
-        const payout = event.data.object as Stripe.Payout;
-        console.log(`Payout ${event.type}:`, payout.id);
+      case "payout.failed":
         break;
-      }
 
       default:
         console.log(`Unhandled Stripe event type: ${event.type}`);
     }
 
-    return NextResponse.json({ received: true });
+    return NextResponse.json({ received: true }, { status: 200 });
   } catch (err) {
     console.error("Error handling Stripe webhook:", err);
-    return NextResponse.json({ error: "Webhook handler failed." }, { status: 500 });
+    return NextResponse.json({ received: true, warning: "handler_error" }, { status: 200 });
   }
 }

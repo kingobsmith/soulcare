@@ -23,8 +23,15 @@ export async function POST(req: NextRequest) {
 
     const supabase = createClient();
     const {
-      data: { user }
+      data: { user },
     } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Please log in or sign up before checkout.", code: "auth_required" },
+        { status: 401 }
+      );
+    }
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || req.nextUrl.origin;
     const affiliateRef = cookies().get(REF_COOKIE)?.value || "";
@@ -35,12 +42,12 @@ export async function POST(req: NextRequest) {
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${appUrl}/app?checkout=success`,
       cancel_url: `${appUrl}/membership?checkout=cancelled`,
-      customer_email: user?.email || undefined,
-      client_reference_id: user?.id || undefined,
+      customer_email: user.email || undefined,
+      client_reference_id: user.id,
       metadata: {
         planKey,
         kind: plan.kind,
-        userId: user?.id || "",
+        userId: user.id,
         affiliateRef,
       },
       allow_promotion_codes: true,

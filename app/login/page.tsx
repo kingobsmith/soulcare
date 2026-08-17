@@ -35,7 +35,7 @@ export default function LoginPage() {
     const next = getNext();
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}${next}` }
+      options: { emailRedirectTo: `${window.location.origin}${next}` },
     });
     if (error) {
       setErrorMsg(error.message);
@@ -45,14 +45,18 @@ export default function LoginPage() {
     setStatus("sent");
   }
 
+  const signupHref =
+    typeof window !== "undefined"
+      ? `/signup?next=${encodeURIComponent(getNext())}`
+      : "/signup";
+
   return (
     <Section tone="parchment" className="flex justify-center">
       <div className="card w-full max-w-md">
         <h1 className="font-display text-2xl font-semibold">Log in</h1>
+        <p className="mt-2 text-sm text-ink/60">Required before checkout.</p>
         {status === "sent" ? (
-          <p className="mt-4 text-sm text-ink/70">
-            Check your email for a magic sign-in link.
-          </p>
+          <p className="mt-4 text-sm text-ink/70">Check your email for a magic sign-in link.</p>
         ) : (
           <form onSubmit={handlePasswordLogin} className="mt-6 grid gap-4">
             <div>
@@ -91,7 +95,7 @@ export default function LoginPage() {
         )}
         <p className="mt-6 text-sm text-ink/60">
           No account yet?{" "}
-          <Link href="/signup" className="font-semibold text-teal underline underline-offset-2">
+          <Link href={signupHref} className="font-semibold text-teal underline underline-offset-2">
             Sign up
           </Link>
         </p>

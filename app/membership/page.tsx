@@ -1,5 +1,6 @@
 import Section from "@/components/Section";
 import CrisisNote from "@/components/CrisisNote";
+import ResumeCheckout from "@/components/ResumeCheckout";
 import {
   GLOBAL_REACH,
   ConsumerPricingGrid,
@@ -13,12 +14,13 @@ export default function MembershipPage() {
         <p className="eyebrow">Membership</p>
         <h1 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">Choose your plan</h1>
         <p className="mt-4 max-w-2xl text-parchment/75">
-          Four plans. One checkout button each. Promotion codes accepted at Stripe checkout.
+          Log in or sign up first, then checkout. Promotion codes accepted on the Stripe page.
         </p>
         <p className="mt-3 max-w-2xl text-sm text-parchment/60">{GLOBAL_REACH}</p>
       </Section>
 
       <Section tone="parchment">
+        <ResumeCheckout />
         <p className="text-xs font-semibold uppercase tracking-widest text-teal">
           For individuals &amp; families
         </p>
